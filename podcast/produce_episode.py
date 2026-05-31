@@ -19,22 +19,41 @@ EPISODES_DIR = Path("podcast/episodes")
 MORGAN_VOICE = "en-US-AriaNeural"    # Calm, warm American female narrator
 TAYLOR_VOICE = "en-GB-SoniaNeural"   # British female — distinct accent, reactive
 
-async def speak_async(text, voice, out_path):
-    """edge-tts: Microsoft neural TTS, sounds extremely human."""
+def get_voice_params(text, speaker):
+    """Vary rate/pitch based on content — edge-tts uses Hz for pitch."""
+    t = text.lower()
+    # Excited / shocked reactions
+    if any(w in t for w in ["what", "no ", "stop", "wait", "literally", "cannot", "insane", "unhinged", "oh my"]):
+        return "-8%", "+15Hz"
+    # Dramatic / dark moments
+    if any(w in t for w in ["body", "murder", "dead", "killed", "missing", "never found", "disappeared", "blood"]):
+        return "-15%", "-10Hz"
+    # Questions
+    if text.strip().endswith("?"):
+        return "-5%", "+10Hz"
+    # Long narration
+    if speaker in ("MORGAN", "ASHLEY") and len(text) > 200:
+        return "-10%", "+0Hz"
+    # Default
+    return "-5%", "+0Hz"
+
+async def speak_async(text, voice, out_path, speaker="MORGAN"):
+    """edge-tts with dynamic rate/pitch — sounds more human."""
     text = text.strip().replace('"', "'").replace('&', 'and')
     text = ' '.join(text.split())
     if not text:
         return False
     try:
-        communicate = edge_tts.Communicate(text, voice=voice, rate="-5%", volume="+10%")
+        rate, pitch = get_voice_params(text, speaker)
+        communicate = edge_tts.Communicate(text, voice=voice, rate=rate, pitch=pitch, volume="+5%")
         await communicate.save(str(out_path))
         return out_path.exists() and out_path.stat().st_size > 1000
     except Exception as e:
         print(f"  edge-tts failed: {e}")
         return False
 
-def speak(text, voice, out_path):
-    return asyncio.run(speak_async(text, voice, out_path))
+def speak(text, voice, out_path, speaker="MORGAN"):
+    return asyncio.run(speak_async(text, voice, out_path, speaker))
 
 def make_ambient(duration_seconds, out_path, dark=True):
     """Generate atmospheric background drone."""
@@ -114,7 +133,7 @@ def produce(script_path):
         out = work_dir / f"{i:03d}_{speaker.lower()}.mp3"
 
         if not out.exists():
-            ok = speak(text, voice, out)
+            ok = speak(text, voice, out, speaker)
             if not ok:
                 continue
 

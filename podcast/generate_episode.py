@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generates Dark Files true crime podcast scripts.
-Crime Junkie style — two hosts, conversational, obsessive detail.
+Feels like two real friends hosting a show — natural, warm, funny, then chilling.
 """
 import json
 import re
@@ -14,121 +14,179 @@ OLLAMA_MODEL = "llama3.2:3b"
 CASES_FILE = Path("podcast/cases.json")
 SCRIPTS_DIR = Path("podcast/scripts")
 
-PROMPT = """You are writing a script for "Dark Files" — a true crime podcast exactly like Crime Junkie.
-
-Two hosts:
-- MORGAN: The main storyteller. Calm, detailed, methodical. Knows every fact.
-- TAYLOR: The co-host reactor. Occasionally interjects, asks questions, expresses horror.
-
-Case to cover: {case}
-
-Write a full podcast episode script. Use ONLY this format:
-
-TITLE: [Episode title — punchy, 8 words max, like Crime Junkie titles]
-DESCRIPTION: [150 char episode description for Spotify]
-SLUG: [lowercase-hyphen-slug]
-
-SCRIPT:
-MORGAN: [Opening hook — one shocking sentence about the case. No "welcome back" yet.]
-TAYLOR: [Short horrified or curious reaction — 1 sentence]
-MORGAN: Welcome back to Dark Files. I'm Morgan.
-TAYLOR: And I'm Taylor.
-MORGAN: Today we're covering [case name], and I have to warn you — this one is deeply unsettling.
-TAYLOR: [1 sentence reaction — "I've been waiting for you to cover this one" or similar]
-MORGAN: [Set the scene. Town, time period, victim background. 4-5 sentences. Specific details.]
-TAYLOR: [Short reaction or question — "How old were they?" or "Wait, so..." — 1-2 sentences]
-MORGAN: [Continue story — timeline of events leading up to the crime. 5-6 sentences.]
-TAYLOR: [React to the most disturbing detail just mentioned — 1-2 sentences]
-MORGAN: [The crime itself — what happened, what was found, what was strange. 5-6 sentences.]
-TAYLOR: [Express disbelief or horror at something specific — 1-2 sentences]
-MORGAN: [The investigation — who was suspected, what evidence existed, what went wrong. 5-6 sentences.]
-TAYLOR: [Ask a natural question a listener would have — 1-2 sentences]
-MORGAN: [Answer the question, go deeper into suspects or evidence. 4-5 sentences.]
-TAYLOR: [React to the most suspicious or chilling detail — 1-2 sentences]
-MORGAN: [Where the case stands today — solved, cold, or recently reopened. 4-5 sentences.]
-TAYLOR: [Final reaction — "This is the kind of case that keeps me up at night" type ending — 1-2 sentences]
-MORGAN: If you have any information about this case, please contact [relevant tip line or law enforcement]. As always, be wrapt up, be nosy, and stay safe out there.
-TAYLOR: See you next week.
-
-Rules:
-- MORGAN speaks in long, detailed paragraphs with specific facts
-- TAYLOR speaks in short punchy reactions, never more than 2 sentences
-- Never make up specific names, dates, or facts you're not sure about — say "allegedly" or "reportedly"
-- Keep it factual and respectful to victims
-- Total length: 1200-1500 words of dialogue
-- No music cues or stage directions in the script
+# Character bibles — consistent across every episode
+MORGAN_BIO = """
+MORGAN's personality:
+- 29, originally from San Diego, now in Portland Oregon
+- Warm, funny, slightly self-deprecating, obsessed with true crime since she was 12
+- Has a golden retriever named Biscuit who appears in stories constantly
+- Drinks too much iced coffee, terrible at hiking despite trying every weekend
+- Dark sense of humor — laughs at her own inappropriate jokes then immediately feels bad
+- Catchphrases: "Okay so here's the thing...", "And THIS is where it gets unhinged", "I cannot stress this enough"
+- Tendency to go on tangents about random details she finds fascinating
+- Gets genuinely emotional about victims — her voice softens when she talks about them
 """
+
+TAYLOR_BIO = """
+TAYLOR's personality:
+- 31, grew up in Manchester UK, moved to the US at 22, never left
+- Sarcastic, quick, warm underneath the dry humor
+- Has a boyfriend named Jake who she references — he's very normal and confused by her true crime obsession
+- Wine drinker, calls herself a "functional disaster"
+- Reactions are fast and sharp: "Sorry WHAT", "Absolutely not", "I cannot with this"
+- Tends to make dark jokes then immediately say "too soon? probably too soon"
+- Genuinely freaked out by the cases — covers it with humor
+- Has a running bit where she rates how unhinged each case is on a scale of 1-10
+"""
+
+PROMPT = """You are writing a script for "Dark Files" — a true crime podcast hosted by two best friends, Morgan and Taylor.
+
+The show feels like eavesdropping on two funny, warm, slightly chaotic women who happen to be obsessed with true crime. It sounds NOTHING like a scripted podcast. It sounds like two real people talking.
+
+{morgan_bio}
+
+{taylor_bio}
+
+Today's case: {case}
+
+Write a FULL episode script. The script must feel completely natural — interruptions, laughter, tangents, personal stories. NOT a document. A CONVERSATION.
+
+Format: Use only MORGAN: and TAYLOR: labels. Write everything else as natural dialogue.
+
+---
+
+MORGAN: [Cold open — the most shocking single sentence from today's case. No greeting yet. Just drop us in.]
+TAYLOR: [Her gut reaction — one line, completely unfiltered]
+
+[--- INTRO BANTER SECTION — 3-4 minutes of real conversation before the case ---]
+
+MORGAN: Okay hi everyone, welcome back to Dark Files. I'm Morgan.
+TAYLOR: I'm Taylor, and I have already heard what today's case is and I need everyone to know I was not okay about it.
+MORGAN: [Brief funny/warm response to Taylor's reaction — then pivot to asking about Taylor's week. Reference something specific like Jake, her wine habit, something she mentioned last episode]
+TAYLOR: [A genuine personal story about her week — funny, specific, relatable. 3-5 sentences. Can reference Jake, her general chaos, something mundane that went wrong]
+MORGAN: [React to Taylor's story naturally — laugh, commiserate, share a related quick thing about her own week. Reference Biscuit, hiking, her iced coffee addiction, or something current]
+TAYLOR: [Short reaction + transition toward getting into the episode — something like "okay but I feel like we need to get into this because I've been thinking about it all day"]
+MORGAN: [Agree, set up why THIS case, why TODAY — maybe reference how she found it, how long she's been wanting to cover it. Build genuine anticipation.]
+TAYLOR: I'm ready. I think. No I'm not ready but let's go.
+
+[--- THE CASE — Told conversationally, not like a report ---]
+
+MORGAN: [Set the scene — place, time, who the victim was. Specific vivid details. Speak to the listener like you're telling a story to a friend over coffee. 5-6 sentences.]
+TAYLOR: [React to a specific detail — ask a natural follow-up question or express shock at something specific]
+MORGAN: [Answer + continue the timeline — what led up to the crime, what was normal about this person's life before. 5-6 sentences. Include a detail that will become significant later.]
+TAYLOR: [Pick up on a detail that feels off — "wait hold on, so you're telling me..." 1-2 sentences]
+MORGAN: [Exactly right, and here's why that matters — build the tension. What happened. Be specific. 5-6 sentences. Include a moment that makes Taylor react.]
+TAYLOR: [Genuine shocked or horrified reaction — can be dark humor or genuine horror. Rate the case on the unhinged scale if appropriate. 2 sentences.]
+MORGAN: [The investigation — who looked, what they found, what was suspicious, who the suspects were. 5-6 sentences. Include a detail that made investigators question everything.]
+TAYLOR: [Ask the question every listener is screaming at their phone. "But WHY would they..." or "Okay but did anyone check..." 1-2 sentences]
+MORGAN: [Answer it — this is where you drop the most disturbing reveal. Take your time. 4-5 sentences. Let the weight of it land.]
+TAYLOR: [Sit with it for a second. React authentically. Maybe make a dark joke, then pull back. 2 sentences.]
+MORGAN: [Where it stands today — solved, cold case, or recently reopened. Be honest about what we don't know. 4-5 sentences.]
+TAYLOR: [Final reaction — something that will stick with the listener. Reference something from earlier that hits differently now. 2 sentences.]
+
+[--- OUTRO — Warm, personal, feels like hanging up the phone with a friend ---]
+
+MORGAN: [Wrap up the case with genuine emotion — honor the victim if relevant. Tip line or cold case resources if applicable. 3 sentences.]
+TAYLOR: [Add something — a final thought, a dark observation, or something human about the victim. 1-2 sentences.]
+MORGAN: Okay. That was a lot. Taylor, rate it.
+TAYLOR: [Give a genuine unhinged rating on the 1-10 scale with a brief reason — funny but real. "That's a solid 9 out of 10 on the unhinged scale because..." 1-2 sentences]
+MORGAN: [Agree or debate the rating briefly — feel free to bicker about it for one exchange]
+TAYLOR: [Concede or hold firm — then pivot to signing off]
+MORGAN: Okay everyone — thank you so much for listening to Dark Files. New episode drops [day of week]. Don't forget to subscribe, leave a review, it genuinely helps us more than you know. And as always —
+TAYLOR: Stay curious, stay safe, and maybe don't go hiking alone.
+MORGAN: [One last Biscuit mention or personal sign-off — warm and specific]
+
+---
+
+CRITICAL RULES — READ THESE OR THE SCRIPT IS TRASH:
+
+1. NATURAL SPEECH ONLY. Real people say: "okay so like", "wait wait wait", "no no no", "I literally", "you know what I mean?", "I'm not even kidding", "honestly", "I mean", "right?", "okay but here's the thing", sentence fragments, run-on thoughts. USE THESE.
+
+2. CONTRACTIONS ALWAYS. Never "do not" — always "don't". Never "it is" — always "it's". Never "I am" — always "I'm". No exceptions.
+
+3. MORGAN'S STORYTELLING sounds like she's telling her best friend something insane she read — not like a Wikipedia article. She goes "okay so picture this" and "and you're gonna think I'm making this up but" and trails off dramatically.
+
+4. TAYLOR reacts like a real person watching a horror movie with her friend. "Okay STOP." "No absolutely not." "Wait I'm sorry — she did WHAT?" Short, punchy, real.
+
+5. FILLER WORDS are your friend. "Like", "um", "so", "I mean", "honestly", "literally", "basically" — scatter them naturally. Not every sentence. But enough that it sounds human.
+
+6. INTERRUPTIONS. Taylor can cut Morgan off mid-sentence. Morgan can say "exactly, exactly" while Taylor's still talking. Real conversation overlaps.
+
+7. HUMOR must land. At least two moments where something is genuinely funny — dark humor is fine, that's the show's brand.
+
+8. EMOTIONAL RANGE. Morgan's voice drops when she talks about victims. Taylor gets quiet when something really hits. Not every line is at the same energy level.
+
+9. THE COLD OPEN LINE must be the single most jaw-dropping sentence of the episode. Not an intro — a hook.
+
+10. Total word count: 1600-2200 words. This is a 20-25 minute episode.
+"""
+
+REPLENISH_PROMPT = """Generate 30 new true crime podcast episode topics for a show called Dark Files.
+
+Each must be a real documented case — murder, disappearance, cold case, heist, or crime.
+Prioritize: underreported cases, international cases, historical crimes, cases with bizarre twists.
+Avoid: OJ Simpson, Ted Bundy, Jeffrey Dahmer (overexposed).
+
+Reply with ONLY a numbered list. One sentence per case.
+1. [Case description]
+...
+
+Generate 30 now:"""
 
 def call_ollama(prompt):
     resp = requests.post(
         f"{OLLAMA_URL}/api/generate",
         json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False,
-              "options": {"temperature": 0.7, "num_predict": 2500}},
+              "options": {"temperature": 0.85, "num_predict": 3000}},
         timeout=300
     )
     return resp.json()["response"]
 
 def parse_script(raw, case):
-    lines = raw.strip().split('\n')
     data = {
         "case": case,
         "date": datetime.now().strftime("%Y-%m-%d"),
         "title": "", "description": "", "slug": "",
-        "dialogue": []  # list of {"speaker": "MORGAN"|"TAYLOR", "text": "..."}
+        "dialogue": []
     }
 
-    in_script = False
     current_speaker = None
     current_lines = []
 
     def flush():
         if current_speaker and current_lines:
-            text = ' '.join(' '.join(current_lines).split())
-            if text:
+            text = ' '.join(' '.join(current_lines).split()).strip()
+            if text and len(text) > 3:
                 data["dialogue"].append({"speaker": current_speaker, "text": text})
 
-    for line in lines:
+    for line in raw.split('\n'):
         s = line.strip()
-        if s.startswith("TITLE:"):
+        if not s:
+            continue
+        if s.startswith("MORGAN:"):
+            flush(); current_speaker = "MORGAN"; current_lines = [s[7:].strip()]
+        elif s.startswith("TAYLOR:"):
+            flush(); current_speaker = "TAYLOR"; current_lines = [s[7:].strip()]
+        elif s.startswith("TITLE:"):
+            flush(); current_speaker = None; current_lines = []
             data["title"] = s[6:].strip()
         elif s.startswith("DESCRIPTION:"):
             data["description"] = s[12:].strip()
-        elif s.startswith("SLUG:"):
-            slug = s[5:].strip()
-            data["slug"] = re.sub(r'[^a-z0-9-]', '', slug.lower())[:55]
-        elif s == "SCRIPT:":
-            in_script = True
-        elif in_script:
-            if s.startswith("MORGAN:"):
-                flush(); current_speaker = "MORGAN"; current_lines = [s[7:].strip()]
-            elif s.startswith("TAYLOR:"):
-                flush(); current_speaker = "TAYLOR"; current_lines = [s[7:].strip()]
-            elif current_speaker and s:
+        elif current_speaker:
+            if not s.startswith('[---') and not s.startswith('---'):
                 current_lines.append(s)
-
     flush()
 
+    # Auto-generate title from case if model didn't provide one
     if not data["title"]:
-        data["title"] = case[:60]
+        words = case.split()[:8]
+        data["title"] = ' '.join(words).rstrip('.,')
+
     if not data["slug"]:
         slug = re.sub(r'[^a-z0-9\s]', '', data["title"].lower())
         data["slug"] = re.sub(r'\s+', '-', slug.strip())[:55]
 
     return data
-
-REPLENISH_PROMPT = """Generate 30 new true crime podcast episode topics for a show called Dark Files.
-
-Each topic must be:
-- A real, documented case (murder, disappearance, unsolved crime, cold case, heist)
-- Interesting and specific — include the victim name or key detail
-- Different from common overexposed cases like OJ Simpson or Ted Bundy
-- One sentence describing the case
-
-Reply with ONLY a numbered list. No intro text. Example format:
-1. The disappearance of [name]: [one sentence description]
-2. The murder of [name]: [one sentence description]
-
-Generate 30 unique cases now:"""
 
 def load_cases():
     return json.loads(CASES_FILE.read_text())
@@ -143,25 +201,21 @@ def get_next_case(data):
     return None
 
 def replenish_cases(data):
-    """Auto-generates 30 new cases when queue runs low."""
-    print("Generating new cases automatically...")
+    print("Generating new cases...")
     raw = call_ollama(REPLENISH_PROMPT)
-    new_cases = []
+    new = []
     for line in raw.strip().split('\n'):
-        line = line.strip()
-        # Strip leading number/dot
-        line = re.sub(r'^\d+[\.\)]\s*', '', line).strip()
+        line = re.sub(r'^\d+[\.\)]\s*', '', line.strip()).strip()
         if len(line) > 30 and line not in data["cases"]:
-            new_cases.append(line)
-    data["cases"].extend(new_cases)
+            new.append(line)
+    data["cases"].extend(new)
     save_cases(data)
-    print(f"Added {len(new_cases)} new cases to queue.")
+    print(f"Added {len(new)} new cases.")
 
 def main():
     SCRIPTS_DIR.mkdir(parents=True, exist_ok=True)
     data = load_cases()
 
-    # Auto-replenish when fewer than 10 unused cases remain
     unused = [c for c in data["cases"] if c not in data["used"]]
     if len(unused) < 10:
         replenish_cases(data)
@@ -169,15 +223,20 @@ def main():
 
     case = get_next_case(data)
     if not case:
-        print("All cases used. Add more to cases.json")
+        print("No cases available.")
         return
 
-    print(f"Generating episode: {case[:60]}...")
-    raw = call_ollama(PROMPT.format(case=case))
-    script = parse_script(raw, case)
-
     ep_num = len(data["used"]) + 1
+    print(f"Generating EP{ep_num:03d}: {case[:60]}...")
+
+    raw = call_ollama(PROMPT.format(
+        case=case,
+        morgan_bio=MORGAN_BIO,
+        taylor_bio=TAYLOR_BIO
+    ))
+    script = parse_script(raw, case)
     script["ep_num"] = ep_num
+
     fname = f"ep{ep_num:03d}-{script['slug']}.json"
     (SCRIPTS_DIR / fname).write_text(json.dumps(script, indent=2))
 
@@ -187,7 +246,6 @@ def main():
     print(f"Saved: {fname}")
     print(f"Title: {script['title']}")
     print(f"Dialogue lines: {len(script['dialogue'])}")
-    return SCRIPTS_DIR / fname
 
 if __name__ == "__main__":
     main()
