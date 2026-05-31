@@ -77,9 +77,15 @@ def upload_video(video_path, script_path):
     return video_id
 
 if __name__ == "__main__":
+    if "--auth-only" in sys.argv:
+        print("Authenticating with Google...")
+        get_youtube_client()
+        print("✓ Google account authorized! YouTube uploads are now fully automatic.")
+        sys.exit(0)
+
     videos = sorted(Path("youtube/video").glob("*.mp4"))
     scripts = sorted(Path("youtube/scripts").glob("*.json"))
     if not videos or not scripts:
-        print("No video or script found. Run make_video.py first.")
+        print("No video or script found. Run make_video_v2.py first.")
         sys.exit(1)
     upload_video(videos[-1], scripts[-1])
