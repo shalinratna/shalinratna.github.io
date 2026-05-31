@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:spotify="https://www.spotify.com/ns/rss">
+  <channel>
+    <title>Money Brain</title>
+    <link>https://shalinratna.github.io</link>
+    <description>The no-fluff podcast for men who want to build wealth using AI tools, smart investing, and modern money mindset. New episodes every week.</description>
+    <language>en-us</language>
+    <pubDate>Sun, 31 May 2026 21:46:35 GMT</pubDate>
+    <lastBuildDate>Sun, 31 May 2026 21:46:35 GMT</lastBuildDate>
+    <itunes:author>Money Brain</itunes:author>
+    <itunes:email>moneybrain.podcast@gmail.com</itunes:email>
+    <itunes:image href="https://shalinratna.github.io/podcast/cover.jpg"/>
+    <itunes:category text="Business">
+      <itunes:category text="Investing"/>
+    </itunes:category>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:type>episodic</itunes:type>
+    
+  </channel>
+</rss>

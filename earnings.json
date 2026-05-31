@@ -1,0 +1,50 @@
+{
+  "year": 2026,
+  "goal_monthly": 1000,
+  "goal_annual": 12000,
+  "streams": {
+    "adsense": {
+      "name": "Google AdSense (Site)",
+      "status": "pending_review",
+      "total_earned": 0.00,
+      "monthly_avg": 0.00,
+      "notes": "Under review. Ads show after approval (1-3 days)."
+    },
+    "youtube_adsense": {
+      "name": "YouTube AdSense (Money Brain)",
+      "status": "building",
+      "total_earned": 0.00,
+      "monthly_avg": 0.00,
+      "notes": "Need 1k subs + 4k watch hours. Target: month 4."
+    },
+    "amazon_associates": {
+      "name": "Amazon Associates",
+      "status": "not_started",
+      "total_earned": 0.00,
+      "monthly_avg": 0.00,
+      "notes": "Links coded. Need Associates account."
+    },
+    "podcast": {
+      "name": "Spotify Podcast (Money Brain Audio)",
+      "status": "building",
+      "total_earned": 0.00,
+      "monthly_avg": 0.00,
+      "notes": "New stream. Repurposes YouTube audio. $15-25 CPM."
+    },
+    "kofi": {
+      "name": "Ko-fi Donations",
+      "status": "not_started",
+      "total_earned": 0.00,
+      "monthly_avg": 0.00,
+      "notes": "Button on site. Need Ko-fi account."
+    }
+  },
+  "log": [
+    {
+      "date": "2026-05-31",
+      "event": "Launched. Site live, 60 articles, YouTube pipeline built, AdSense under review.",
+      "total": 0.00
+    }
+  ],
+  "total_earned": 0.00
+}

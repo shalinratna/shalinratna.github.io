@@ -33,3 +33,6 @@ git push origin main >> "$LOG" 2>&1
 git subtree push --prefix docs origin gh-pages >> "$LOG" 2>&1
 
 echo "[$(date)] Pipeline complete." >> "$LOG"
+
+# Build podcast RSS feed (repurposes YouTube audio = free extra stream)
+/usr/bin/python3 podcast/build_podcast.py >> "$LOG" 2>&1
