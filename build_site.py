@@ -8,7 +8,7 @@ from pathlib import Path
 SITE_NAME = "AI Money Tools"
 SITE_URL = "https://shalinratna.github.io"
 SITE_DESCRIPTION = "Free guides on using AI tools to save money, earn more, and work smarter."
-ADSENSE_ID = ""  # Add yours after AdSense approval: ca-pub-XXXXXXXXXXXXXXXX
+ADSENSE_ID = "ca-pub-1674705461176233"
 
 CSS = """
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

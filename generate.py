@@ -12,45 +12,69 @@ OLLAMA_MODEL = "llama3.2:3b"
 OLLAMA_URL = "http://localhost:11434"
 ARTICLES_PER_RUN = 3
 
-PROMPT = """Write a detailed, helpful article about: {topic}
+PROMPT = """Write an expert, SEO-optimized article about: {topic}
 
-Use this exact format:
+Use this EXACT format (markers must appear exactly as written):
 
-TITLE: [Compelling title, 55-65 characters, includes main keyword]
-META: [Meta description, 145-155 characters, includes keyword and benefit]
-SLUG: [lowercase-url-slug-with-hyphens-only]
-TAGS: [tag1, tag2, tag3, tag4]
+TITLE: [55-65 chars. Lead with the primary keyword. Make it specific and benefit-driven.]
+META: [150-158 chars. Include keyword + clear benefit + mild urgency. No clickbait.]
+SLUG: [lowercase-hyphens-only-no-special-chars-max-60-chars]
+TAGS: [6-8 tags: mix of broad + long-tail keywords, comma separated]
 
 CONTENT:
-## Introduction
-[2-3 engaging paragraphs that hook the reader and state the value clearly]
+## [Keyword-rich H2: restate topic as a question or promise]
 
-> **Quick Takeaways:** [3 bullet points summarizing the key benefits]
+[Opening paragraph: lead with a surprising stat or relatable problem. 2-3 sentences max.]
 
-## [Section 1 Title]
-[250-300 words with specific, actionable information]
+[Second paragraph: promise exactly what this article delivers and why it matters right now.]
 
-## [Section 2 Title]
-[250-300 words]
+> **Key Takeaways**
+> - [Specific benefit 1 with number or result]
+> - [Specific benefit 2 with number or result]
+> - [Specific benefit 3 with number or result]
 
-## [Section 3 Title]
-[250-300 words with numbered list or comparison table where appropriate]
+## [H2: First major concept — name the specific tool or method]
 
-## [Section 4 Title]
-[250-300 words]
+[200-250 words. Open with what it is and why it works. Include a numbered step-by-step process or a real example. Name specific tools like ChatGPT, Claude, Copilot, Mint, YNAB, etc. End with one concrete result the reader can expect.]
 
-## [Section 5 Title - Tips/Mistakes/Recommendations]
-[200-250 words with bullet points]
+## [H2: Second concept — go deeper, add comparison or data]
 
-## Final Thoughts
-[150-200 word conclusion with clear next step for the reader]
+[200-250 words. Include a markdown table comparing 2-3 options OR a numbered list of exact steps. Be specific with numbers, percentages, timeframes.]
 
-Requirements:
-- Write in a direct, conversational tone (no corporate fluff)
-- Include specific tool names, numbers, and real examples
-- Total length: 1400-1800 words
-- Every section must provide concrete, actionable value
-- Do not include affiliate disclaimers or sponsored content mentions
+## [H2: Third concept — common mistakes or pro tips]
+
+[200-250 words. List 4-5 specific mistakes or tips as bullet points with brief explanations. Be direct.]
+
+## [H2: Fourth concept — advanced tactic or tool combo]
+
+[200-250 words. One specific advanced technique most people miss. Include exact prompts, settings, or tool combinations where relevant.]
+
+## [H2: Step-by-step action plan]
+
+[150-200 words. Numbered list of exactly 5-7 steps the reader can start TODAY. Each step is one sentence, specific and actionable.]
+
+## Frequently Asked Questions
+
+**[Question 1 about the topic — something people actually Google]**
+[2-3 sentence answer. Direct and specific.]
+
+**[Question 2 about the topic]**
+[2-3 sentence answer.]
+
+**[Question 3 about the topic]**
+[2-3 sentence answer.]
+
+## Final Verdict
+
+[100-150 words. Summarize the single most important thing to do first. Include a specific next step. End with encouragement.]
+
+Rules:
+- Total length: 1500-2000 words
+- Conversational but authoritative tone
+- Every claim needs a specific number, tool name, or example — no vague statements
+- Never say "in conclusion" or "in summary"
+- Bold the most important phrase in each section
+- Include at least one markdown table somewhere in the article
 """
 
 def call_ollama(topic):

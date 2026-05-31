@@ -23,4 +23,7 @@ git diff --cached --quiet && echo "[$(date)] Nothing new to commit." >> "$LOG" &
 git commit -m "Daily update: $(date '+%Y-%m-%d')" >> "$LOG" 2>&1
 git push origin main >> "$LOG" 2>&1
 
+# Push docs/ to gh-pages branch (live site at shalinratna.github.io)
+git subtree push --prefix docs origin gh-pages >> "$LOG" 2>&1
+
 echo "[$(date)] Pipeline complete." >> "$LOG"
