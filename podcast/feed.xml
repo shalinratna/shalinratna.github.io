@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
      xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
-     xmlns:content="http://purl.org/rss/1.0/modules/content/"
-     xmlns:spotify="https://www.spotify.com/ns/rss">
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Money Brain</title>
+    <title>Dark Files</title>
     <link>https://shalinratna.github.io</link>
-    <description>The no-fluff podcast for men who want to build wealth using AI tools, smart investing, and modern money mindset. New episodes every week.</description>
+    <description>Two hosts. Countless cases. Dark Files dives deep into the most chilling true crime stories — cold cases, unsolved murders, and the cases that haunt us. New episodes every week. Be wrapt up, be nosy, stay safe.</description>
     <language>en-us</language>
-    <pubDate>Sun, 31 May 2026 21:46:35 GMT</pubDate>
-    <lastBuildDate>Sun, 31 May 2026 21:46:35 GMT</lastBuildDate>
-    <itunes:author>Money Brain</itunes:author>
-    <itunes:email>moneybrain.podcast@gmail.com</itunes:email>
+    <pubDate>Sun, 31 May 2026 21:58:58 GMT</pubDate>
+    <lastBuildDate>Sun, 31 May 2026 21:58:58 GMT</lastBuildDate>
+    <itunes:author>Dark Files Podcast</itunes:author>
     <itunes:image href="https://shalinratna.github.io/podcast/cover.jpg"/>
-    <itunes:category text="Business">
-      <itunes:category text="Investing"/>
-    </itunes:category>
-    <itunes:explicit>false</itunes:explicit>
+    <itunes:category text="True Crime"/>
+    <itunes:explicit>true</itunes:explicit>
     <itunes:type>episodic</itunes:type>
     
+    <item>
+      <title>The Vanishing of Maura Murray</title>
+      <description><![CDATA[A college student's disappearance after a car crash leaves behind a trail of unanswered questions.]]></description>
+      <pubDate>Sun, 31 May 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">a816cdd665d314291d02bba42ed721c8</guid>
+      <enclosure url="https://shalinratna.github.io/podcast/episodes/ep001-the-vanishing-of-maura-murray.mp3" length="3028575" type="audio/mpeg"/>
+      <itunes:title>The Vanishing of Maura Murray</itunes:title>
+      <itunes:episode>1</itunes:episode>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:duration>00:03:09</itunes:duration>
+      <itunes:explicit>true</itunes:explicit>
+      <itunes:author>Dark Files Podcast</itunes:author>
+    </item>
   </channel>
 </rss>
