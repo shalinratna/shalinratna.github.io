@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shalinratna.github.io/sitemap.xml
