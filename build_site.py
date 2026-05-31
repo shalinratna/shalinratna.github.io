@@ -9,6 +9,21 @@ SITE_NAME = "AI Money Tools"
 SITE_URL = "https://shalinratna.github.io"
 SITE_DESCRIPTION = "Free guides on using AI tools to save money, earn more, and work smarter."
 ADSENSE_ID = "ca-pub-1674705461176233"
+AMAZON_TAG = ""  # Set to your Amazon Associates tag e.g. "aimoneytools-20"
+
+# Auto-affiliate: keywords → Amazon search links (injected into articles)
+AFFILIATE_LINKS = {
+    "YNAB": "https://www.amazon.com/s?k=ynab+budget+book&tag=AMZN_TAG",
+    "ChatGPT": "https://www.amazon.com/s?k=chatgpt+book+guide&tag=AMZN_TAG",
+    "budgeting": "https://www.amazon.com/s?k=personal+finance+budget+planner&tag=AMZN_TAG",
+    "investing": "https://www.amazon.com/s?k=investing+for+beginners+book&tag=AMZN_TAG",
+    "passive income": "https://www.amazon.com/s?k=passive+income+book&tag=AMZN_TAG",
+    "credit score": "https://www.amazon.com/s?k=improve+credit+score+guide&tag=AMZN_TAG",
+    "retirement": "https://www.amazon.com/s?k=retirement+planning+book&tag=AMZN_TAG",
+    "side hustle": "https://www.amazon.com/s?k=side+hustle+ideas+book&tag=AMZN_TAG",
+    "freelancing": "https://www.amazon.com/s?k=freelancing+guide+book&tag=AMZN_TAG",
+    "dropshipping": "https://www.amazon.com/s?k=dropshipping+guide&tag=AMZN_TAG",
+}
 
 CSS = """
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -68,6 +83,12 @@ nav a:not(.logo):hover { color: #fff; text-decoration: none; }
 .static-page p { margin-bottom: 16px; color: var(--muted); }
 
 footer { background: var(--text); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 0.85rem; }
+.tools-box { background: var(--light); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin: 32px 0; }
+.tools-box-title { font-weight: 700; font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+.tools-box ul { margin-left: 16px; }
+.tools-box li { margin-bottom: 8px; font-size: 0.9rem; }
+.kofi-box { text-align: center; margin: 24px 0; padding: 16px; background: #fff4e6; border-radius: 8px; border: 1px solid #ffe0b2; }
+.kofi-box a { color: #ff5722; font-weight: 600; font-size: 0.95rem; }
 footer a { color: rgba(255,255,255,0.6); }
 footer a:hover { color: #fff; }
 
@@ -148,7 +169,18 @@ def build_article_page(fm, body_html, depth="../../"):
         "publisher": {"@type": "Organization", "name": SITE_NAME, "url": SITE_URL}
     })
 
-    ad_slot = f'<div class="ad-slot">Advertisement</div>' if ADSENSE_ID else ''
+    ad_slot = '<ins class="adsbygoogle" style="display:block" data-ad-client="{}" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>'.format(ADSENSE_ID) if ADSENSE_ID else ''
+
+    tools_box = """<div class="tools-box">
+  <div class="tools-box-title">🔧 Recommended Tools</div>
+  <ul>
+    <li><a href="https://www.amazon.com/s?k=personal+finance+book&tag={tag}" target="_blank" rel="noopener">Top Personal Finance Books on Amazon</a></li>
+    <li><a href="https://www.amazon.com/s?k=ai+productivity+tools&tag={tag}" target="_blank" rel="noopener">Best AI Productivity Gadgets</a></li>
+    <li><a href="https://www.amazon.com/s?k=budget+planner+notebook&tag={tag}" target="_blank" rel="noopener">Budget Planners &amp; Journals</a></li>
+  </ul>
+</div>""".format(tag=AMAZON_TAG or "aimoneytools-20") if AMAZON_TAG else ""
+
+    kofi = '<div class="kofi-box"><a href="https://ko-fi.com/aimoneytools" target="_blank" rel="noopener">☕ Found this helpful? Buy me a coffee</a></div>'
 
     h = head(f"{title} | {SITE_NAME}", desc, url)
     h = h.replace('rel="stylesheet" href="/assets/style.css"', f'rel="stylesheet" href="{depth}assets/style.css"')
@@ -161,6 +193,8 @@ def build_article_page(fm, body_html, depth="../../"):
   <div class="article-meta"><time datetime="{date}">{date}</time>{' &nbsp;|&nbsp; ' + tag_html if tag_html else ''}</div>
   {ad_slot}
   {body_html}
+  {tools_box}
+  {kofi}
   {ad_slot}
 </main>
 {footer_html()}

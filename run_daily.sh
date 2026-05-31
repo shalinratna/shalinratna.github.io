@@ -17,8 +17,14 @@ fi
 # Build the site
 /usr/bin/python3 build_site.py >> "$LOG" 2>&1
 
+# Generate Pinterest images for new articles
+/usr/bin/python3 pinterest_images.py >> "$LOG" 2>&1
+
+# Post 3 pins to Pinterest (if configured)
+/usr/bin/python3 pinterest_post.py >> "$LOG" 2>&1
+
 # Commit and push
-git add articles/ docs/
+git add articles/ docs/ pinterest_pins/
 git diff --cached --quiet && echo "[$(date)] Nothing new to commit." >> "$LOG" && exit 0
 git commit -m "Daily update: $(date '+%Y-%m-%d')" >> "$LOG" 2>&1
 git push origin main >> "$LOG" 2>&1
