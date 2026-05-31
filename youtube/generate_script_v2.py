@@ -150,12 +150,65 @@ def get_next_episode(data):
                 return series, ep
     return None, None
 
+def replenish_series(data):
+    """Auto-generates a new series of 10 episodes when all are used."""
+    used = set(data.get("used_episodes", []))
+    total = sum(len(s["episodes"]) for s in data["series"])
+    remaining = total - len(used)
+    if remaining > 3:
+        return
+
+    print("Generating new Money Brain series...")
+    prompt = """Generate a new YouTube series for a channel called "Money Brain" about wealth, AI tools, and financial freedom for men.
+
+Format:
+SERIES_NAME: [series name]
+1. [episode topic — specific, bold, curiosity-driving]
+2. [episode topic]
+... (10 episodes total)
+
+Make the topics specific, provocative, and search-friendly. Focus on money mindset, AI tools, investing, side hustles.
+
+Generate one complete series of 10 episodes now:"""
+
+    resp = requests.post(
+        f"{OLLAMA_URL}/api/generate",
+        json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False,
+              "options": {"temperature": 0.85, "num_predict": 800}},
+        timeout=180
+    )
+    raw = resp.json()["response"]
+    lines = raw.strip().split('\n')
+    series_name = "Money Brain Unlocked"
+    episodes = []
+    for line in lines:
+        line = line.strip()
+        if line.startswith("SERIES_NAME:"):
+            series_name = line[12:].strip()
+        else:
+            topic = re.sub(r'^\d+[\.\)]\s*', '', line).strip()
+            if len(topic) > 20:
+                episodes.append({"ep": len(episodes)+1, "topic": topic})
+        if len(episodes) >= 10:
+            break
+
+    if episodes:
+        data["series"].append({
+            "name": series_name,
+            "playlist": series_name,
+            "episodes": episodes
+        })
+        save_series(data)
+        print(f"Added new series: '{series_name}' with {len(episodes)} episodes.")
+
 def main():
     SCRIPTS_DIR.mkdir(parents=True, exist_ok=True)
     data = load_series()
+    replenish_series(data)
+    data = load_series()
     series, ep = get_next_episode(data)
     if not series:
-        print("All episodes used.")
+        print("All episodes used — replenishment failed, check logs.")
         return
 
     print(f"[{series['name']}] Ep {ep['ep']}: {ep['topic'][:60]}...")

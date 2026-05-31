@@ -165,13 +165,48 @@ def save_topics(data):
     with open("topics.json", "w") as f:
         json.dump(data, f, indent=2)
 
+def replenish_topics(data):
+    """Auto-generates 40 new topics when queue runs low."""
+    print("Replenishing topics automatically...")
+    prompt = """Generate 40 new SEO article topics for a site about using AI tools for personal finance and making money online.
+
+Each topic must be:
+- A specific how-to or guide about AI tools + money/productivity
+- Targeted at people searching Google (high search intent)
+- Different from generic advice — be specific with tools, numbers, or niches
+- One sentence, phrased as an article title
+
+Reply with ONLY a numbered list. No intro. Example:
+1. How to use Claude AI to negotiate lower interest rates on credit cards
+2. The 5 AI tools that replaced my $500/month accounting software
+
+Generate 40 unique topics now:"""
+
+    resp = requests.post(
+        f"{OLLAMA_URL}/api/generate",
+        json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False,
+              "options": {"temperature": 0.8, "num_predict": 1500}},
+        timeout=300
+    )
+    raw = resp.json()["response"]
+    new_topics = []
+    for line in raw.strip().split('\n'):
+        line = re.sub(r'^\d+[\.\)]\s*', '', line.strip()).strip()
+        if len(line) > 20 and line not in data["topics"]:
+            new_topics.append(line)
+    data["topics"].extend(new_topics)
+    save_topics(data)
+    print(f"Added {len(new_topics)} new topics.")
+
 def main():
     data = load_topics()
     pending = [t for t in data["topics"] if t not in data["used"]]
 
-    if not pending:
-        print("All topics used. Add more to topics.json")
-        sys.exit(0)
+    # Auto-replenish when fewer than 15 topics remain
+    if len(pending) < 15:
+        replenish_topics(data)
+        data = load_topics()
+        pending = [t for t in data["topics"] if t not in data["used"]]
 
     count = min(ARTICLES_PER_RUN, len(pending))
     print(f"Generating {count} articles...")

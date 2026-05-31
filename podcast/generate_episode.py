@@ -116,6 +116,20 @@ def parse_script(raw, case):
 
     return data
 
+REPLENISH_PROMPT = """Generate 30 new true crime podcast episode topics for a show called Dark Files.
+
+Each topic must be:
+- A real, documented case (murder, disappearance, unsolved crime, cold case, heist)
+- Interesting and specific — include the victim name or key detail
+- Different from common overexposed cases like OJ Simpson or Ted Bundy
+- One sentence describing the case
+
+Reply with ONLY a numbered list. No intro text. Example format:
+1. The disappearance of [name]: [one sentence description]
+2. The murder of [name]: [one sentence description]
+
+Generate 30 unique cases now:"""
+
 def load_cases():
     return json.loads(CASES_FILE.read_text())
 
@@ -128,9 +142,31 @@ def get_next_case(data):
             return c
     return None
 
+def replenish_cases(data):
+    """Auto-generates 30 new cases when queue runs low."""
+    print("Generating new cases automatically...")
+    raw = call_ollama(REPLENISH_PROMPT)
+    new_cases = []
+    for line in raw.strip().split('\n'):
+        line = line.strip()
+        # Strip leading number/dot
+        line = re.sub(r'^\d+[\.\)]\s*', '', line).strip()
+        if len(line) > 30 and line not in data["cases"]:
+            new_cases.append(line)
+    data["cases"].extend(new_cases)
+    save_cases(data)
+    print(f"Added {len(new_cases)} new cases to queue.")
+
 def main():
     SCRIPTS_DIR.mkdir(parents=True, exist_ok=True)
     data = load_cases()
+
+    # Auto-replenish when fewer than 10 unused cases remain
+    unused = [c for c in data["cases"] if c not in data["used"]]
+    if len(unused) < 10:
+        replenish_cases(data)
+        data = load_cases()
+
     case = get_next_case(data)
     if not case:
         print("All cases used. Add more to cases.json")
