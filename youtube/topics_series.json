@@ -1,0 +1,148 @@
+{
+  "channel_name": "Money Brain",
+  "channel_tagline": "AI-powered wealth building for the modern man",
+  "series": [
+    {
+      "name": "Broke to Rich Blueprint",
+      "playlist": "Broke to Rich Blueprint",
+      "episodes": [
+        {
+          "ep": 1,
+          "topic": "Why 95% of men stay broke their entire lives \u2014 and the exact mindset shift that changes everything"
+        },
+        {
+          "ep": 2,
+          "topic": "The 5 money habits self-made millionaires do before 8am that nobody talks about"
+        },
+        {
+          "ep": 3,
+          "topic": "How to build your first $10,000 from scratch with zero connections and zero luck"
+        },
+        {
+          "ep": 4,
+          "topic": "The brutal truth about why your 9-to-5 will never make you rich"
+        },
+        {
+          "ep": 5,
+          "topic": "How to invest your first $500 the exact right way in 2025"
+        },
+        {
+          "ep": 6,
+          "topic": "The side hustles that actually made people $1000 a month in 2025"
+        },
+        {
+          "ep": 7,
+          "topic": "How to make money while you sleep \u2014 real passive income that actually works"
+        },
+        {
+          "ep": 8,
+          "topic": "What rich men know about money that schools deliberately never taught you"
+        },
+        {
+          "ep": 9,
+          "topic": "The fastest legal ways to go from $0 to $5000 in 90 days"
+        },
+        {
+          "ep": 10,
+          "topic": "How to build generational wealth starting with less than $100 a month"
+        }
+      ]
+    },
+    {
+      "name": "AI Money Moves",
+      "playlist": "AI Money Moves",
+      "episodes": [
+        {
+          "ep": 1,
+          "topic": "5 AI tools that are literally making people money right now in 2025"
+        },
+        {
+          "ep": 2,
+          "topic": "How to use ChatGPT to start a business that runs itself while you sleep"
+        },
+        {
+          "ep": 3,
+          "topic": "The AI side hustles paying $50-200 per hour with no special skills"
+        },
+        {
+          "ep": 4,
+          "topic": "Free AI tools worth more than $500 a month of software you're paying for"
+        },
+        {
+          "ep": 5,
+          "topic": "How to build a passive income website with AI in one weekend for free"
+        },
+        {
+          "ep": 6,
+          "topic": "The AI tools replacing $100 per hour freelancers \u2014 and how to use them yourself"
+        },
+        {
+          "ep": 7,
+          "topic": "How I would make $5000 a month with AI if I was starting from zero today"
+        },
+        {
+          "ep": 8,
+          "topic": "Using AI to find undervalued stocks before Wall Street catches on"
+        },
+        {
+          "ep": 9,
+          "topic": "The AI automation that replaced my entire marketing team"
+        },
+        {
+          "ep": 10,
+          "topic": "How to sell AI-generated products on Etsy and make money 24/7"
+        }
+      ]
+    },
+    {
+      "name": "Money Mindset Secrets",
+      "playlist": "Money Mindset Secrets",
+      "episodes": [
+        {
+          "ep": 1,
+          "topic": "The psychological reason most men will never be wealthy \u2014 and how to rewire your brain"
+        },
+        {
+          "ep": 2,
+          "topic": "Why rich men think about money completely differently than everyone else"
+        },
+        {
+          "ep": 3,
+          "topic": "The hidden money beliefs destroying your financial future right now"
+        },
+        {
+          "ep": 4,
+          "topic": "How to develop millionaire discipline even when you're broke and unmotivated"
+        },
+        {
+          "ep": 5,
+          "topic": "The morning routine that transforms average men into high earners"
+        },
+        {
+          "ep": 6,
+          "topic": "Why smart men invest in assets while everyone else buys liabilities"
+        },
+        {
+          "ep": 7,
+          "topic": "The negotiation tactics that got men 30-50% salary raises overnight"
+        },
+        {
+          "ep": 8,
+          "topic": "How to network your way to wealth even if you're an introvert"
+        },
+        {
+          "ep": 9,
+          "topic": "The real reason rich people stay rich and poor people stay poor"
+        },
+        {
+          "ep": 10,
+          "topic": "How to quit your job in 12 months using this exact financial blueprint"
+        }
+      ]
+    }
+  ],
+  "used_episodes": [
+    "Broke to Rich Blueprint_1",
+    "Broke to Rich Blueprint_2"
+  ]
+}
