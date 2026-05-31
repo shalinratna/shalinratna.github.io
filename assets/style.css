@@ -56,6 +56,12 @@ nav a:not(.logo):hover { color: #fff; text-decoration: none; }
 .static-page p { margin-bottom: 16px; color: var(--muted); }
 
 footer { background: var(--text); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 0.85rem; }
+.tools-box { background: var(--light); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin: 32px 0; }
+.tools-box-title { font-weight: 700; font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+.tools-box ul { margin-left: 16px; }
+.tools-box li { margin-bottom: 8px; font-size: 0.9rem; }
+.kofi-box { text-align: center; margin: 24px 0; padding: 16px; background: #fff4e6; border-radius: 8px; border: 1px solid #ffe0b2; }
+.kofi-box a { color: #ff5722; font-weight: 600; font-size: 0.95rem; }
 footer a { color: rgba(255,255,255,0.6); }
 footer a:hover { color: #fff; }
 
