@@ -17,8 +17,8 @@ SCRIPTS_DIR = Path("podcast/scripts")
 PROMPT = """You are writing a script for "Dark Files" — a true crime podcast exactly like Crime Junkie.
 
 Two hosts:
-- ASHLEY: The main storyteller. Calm, detailed, methodical. Knows every fact.
-- BRIT: The co-host reactor. Occasionally interjects, asks questions, expresses horror.
+- MORGAN: The main storyteller. Calm, detailed, methodical. Knows every fact.
+- TAYLOR: The co-host reactor. Occasionally interjects, asks questions, expresses horror.
 
 Case to cover: {case}
 
@@ -29,30 +29,30 @@ DESCRIPTION: [150 char episode description for Spotify]
 SLUG: [lowercase-hyphen-slug]
 
 SCRIPT:
-ASHLEY: [Opening hook — one shocking sentence about the case. No "welcome back" yet.]
-BRIT: [Short horrified or curious reaction — 1 sentence]
-ASHLEY: Welcome back to Dark Files. I'm Ashley.
-BRIT: And I'm Brit.
-ASHLEY: Today we're covering [case name], and I have to warn you — this one is deeply unsettling.
-BRIT: [1 sentence reaction — "I've been waiting for you to cover this one" or similar]
-ASHLEY: [Set the scene. Town, time period, victim background. 4-5 sentences. Specific details.]
-BRIT: [Short reaction or question — "How old were they?" or "Wait, so..." — 1-2 sentences]
-ASHLEY: [Continue story — timeline of events leading up to the crime. 5-6 sentences.]
-BRIT: [React to the most disturbing detail just mentioned — 1-2 sentences]
-ASHLEY: [The crime itself — what happened, what was found, what was strange. 5-6 sentences.]
-BRIT: [Express disbelief or horror at something specific — 1-2 sentences]
-ASHLEY: [The investigation — who was suspected, what evidence existed, what went wrong. 5-6 sentences.]
-BRIT: [Ask a natural question a listener would have — 1-2 sentences]
-ASHLEY: [Answer the question, go deeper into suspects or evidence. 4-5 sentences.]
-BRIT: [React to the most suspicious or chilling detail — 1-2 sentences]
-ASHLEY: [Where the case stands today — solved, cold, or recently reopened. 4-5 sentences.]
-BRIT: [Final reaction — "This is the kind of case that keeps me up at night" type ending — 1-2 sentences]
-ASHLEY: If you have any information about this case, please contact [relevant tip line or law enforcement]. As always, be wrapt up, be nosy, and stay safe out there.
-BRIT: See you next week.
+MORGAN: [Opening hook — one shocking sentence about the case. No "welcome back" yet.]
+TAYLOR: [Short horrified or curious reaction — 1 sentence]
+MORGAN: Welcome back to Dark Files. I'm Morgan.
+TAYLOR: And I'm Taylor.
+MORGAN: Today we're covering [case name], and I have to warn you — this one is deeply unsettling.
+TAYLOR: [1 sentence reaction — "I've been waiting for you to cover this one" or similar]
+MORGAN: [Set the scene. Town, time period, victim background. 4-5 sentences. Specific details.]
+TAYLOR: [Short reaction or question — "How old were they?" or "Wait, so..." — 1-2 sentences]
+MORGAN: [Continue story — timeline of events leading up to the crime. 5-6 sentences.]
+TAYLOR: [React to the most disturbing detail just mentioned — 1-2 sentences]
+MORGAN: [The crime itself — what happened, what was found, what was strange. 5-6 sentences.]
+TAYLOR: [Express disbelief or horror at something specific — 1-2 sentences]
+MORGAN: [The investigation — who was suspected, what evidence existed, what went wrong. 5-6 sentences.]
+TAYLOR: [Ask a natural question a listener would have — 1-2 sentences]
+MORGAN: [Answer the question, go deeper into suspects or evidence. 4-5 sentences.]
+TAYLOR: [React to the most suspicious or chilling detail — 1-2 sentences]
+MORGAN: [Where the case stands today — solved, cold, or recently reopened. 4-5 sentences.]
+TAYLOR: [Final reaction — "This is the kind of case that keeps me up at night" type ending — 1-2 sentences]
+MORGAN: If you have any information about this case, please contact [relevant tip line or law enforcement]. As always, be wrapt up, be nosy, and stay safe out there.
+TAYLOR: See you next week.
 
 Rules:
-- ASHLEY speaks in long, detailed paragraphs with specific facts
-- BRIT speaks in short punchy reactions, never more than 2 sentences
+- MORGAN speaks in long, detailed paragraphs with specific facts
+- TAYLOR speaks in short punchy reactions, never more than 2 sentences
 - Never make up specific names, dates, or facts you're not sure about — say "allegedly" or "reportedly"
 - Keep it factual and respectful to victims
 - Total length: 1200-1500 words of dialogue
@@ -74,7 +74,7 @@ def parse_script(raw, case):
         "case": case,
         "date": datetime.now().strftime("%Y-%m-%d"),
         "title": "", "description": "", "slug": "",
-        "dialogue": []  # list of {"speaker": "ASHLEY"|"BRIT", "text": "..."}
+        "dialogue": []  # list of {"speaker": "MORGAN"|"TAYLOR", "text": "..."}
     }
 
     in_script = False
@@ -99,10 +99,10 @@ def parse_script(raw, case):
         elif s == "SCRIPT:":
             in_script = True
         elif in_script:
-            if s.startswith("ASHLEY:"):
-                flush(); current_speaker = "ASHLEY"; current_lines = [s[7:].strip()]
-            elif s.startswith("BRIT:"):
-                flush(); current_speaker = "BRIT"; current_lines = [s[5:].strip()]
+            if s.startswith("MORGAN:"):
+                flush(); current_speaker = "MORGAN"; current_lines = [s[7:].strip()]
+            elif s.startswith("TAYLOR:"):
+                flush(); current_speaker = "TAYLOR"; current_lines = [s[7:].strip()]
             elif current_speaker and s:
                 current_lines.append(s)
 
