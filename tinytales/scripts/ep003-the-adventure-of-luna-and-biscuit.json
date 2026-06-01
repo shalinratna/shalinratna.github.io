@@ -1,0 +1,103 @@
+{
+  "title": "The Adventure of Luna and Biscuit",
+  "lesson": "Working together makes everything better",
+  "description": "",
+  "dialogue": [
+    {
+      "speaker": "NARRATOR",
+      "text": "Welcome to the cozy toy box, where Luna the cat loves to play. Her best friend Biscuit the dog is always by her side."
+    },
+    {
+      "speaker": "Luna",
+      "text": "Ugh, I'm so booooring! I never do anything exciting in this box!"
+    },
+    {
+      "speaker": "Biscuit",
+      "text": "Ruff ruff! You're not boring, Luna! You're super clever and come up with the best games!"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "One day, while Luna was grumbling about being dull, a mischievous gust of wind swept through the toy box."
+    },
+    {
+      "speaker": "Luna",
+      "text": "Oh no! My favorite blocks are going to be scattered everywhere! I'll never find them all!"
+    },
+    {
+      "speaker": "Biscuit",
+      "text": "Woof woof! Let's get those blocks, Luna! We can do it!"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "But instead of helping, Biscuit accidentally knocked over a tower of building blocks."
+    },
+    {
+      "speaker": "Luna",
+      "text": "NOOOO! My beautiful castle is crumbling to dust!"
+    },
+    {
+      "speaker": "Biscuit",
+      "text": "Oops! Sorry, Luna. I didn't mean to make things worse!"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "Just as all hope seemed lost, a spark of creativity lit up Luna's face."
+    },
+    {
+      "speaker": "Luna",
+      "text": "Wait... we can use these blocks to build something even better! A rollercoaster, perhaps?"
+    },
+    {
+      "speaker": "Biscuit",
+      "text": "Ruff ruff! That's a fantastic idea, Luna! Let's do it!"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "Together, Luna and Biscuit built an incredible rollercoaster using the scattered blocks."
+    },
+    {
+      "speaker": "Luna",
+      "text": "Wheee! Look at our masterpiece! It's amazing!"
+    },
+    {
+      "speaker": "Biscuit",
+      "text": "I told you, Luna! You're not boring \u2013 you're a genius!"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "And from that day on, Luna realized that being different and trying new things was what made her truly special."
+    },
+    {
+      "speaker": "Luna",
+      "text": "Thanks for believing in me, Biscuit! Being unique is pretty paw-some!"
+    },
+    {
+      "speaker": "Biscuit",
+      "text": "Ruff ruff! I'm so proud of you, Luna! You're the best friend a dog could ask for!"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "Join us next time on Tiny Tales for more adventures with Luna and Biscuit in the toy box!"
+    }
+  ],
+  "ep_num": 3,
+  "char1_key": "cat",
+  "char2_key": "dog",
+  "char1": {
+    "emoji": "\ud83d\udc31",
+    "name": "Luna",
+    "voice": "en-US-AriaNeural",
+    "personality": "curious, clever, a little sassy"
+  },
+  "char2": {
+    "emoji": "\ud83d\udc36",
+    "name": "Biscuit",
+    "voice": "en-US-GuyNeural",
+    "personality": "loyal, enthusiastic, goofy"
+  },
+  "story_type": "a character who thinks they're boring discovers they're actually amazing",
+  "setting": "a toy box",
+  "date": "2026-05-31",
+  "slug": "the-adventure-of-luna-and-biscuit",
+  "hook": "THIS CAT THINKS SHE IS TOTALLY BORING!"
+}

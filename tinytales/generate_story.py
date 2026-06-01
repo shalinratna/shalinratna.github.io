@@ -75,6 +75,7 @@ Write a warm, funny, engaging story with a clear life lesson.
 Use ONLY this exact format:
 
 TITLE: [Catchy episode title — 5-7 words]
+HOOK: [6-8 words MAX. The most shocking/funny/curious thing about this story. All caps. Examples: "SALT AND PEPPER HAVEN'T SPOKEN IN DAYS!" or "THIS LITTLE PENCIL IS TERRIFIED OF PAPER!" Makes people STOP scrolling.]
 LESSON: [The simple life lesson in one sentence]
 DESCRIPTION: [YouTube description — 100 chars, exciting for parents]
 
@@ -157,6 +158,7 @@ def parse_story(raw, c1, c2):
         if not s:
             continue
         if s.startswith("TITLE:"): data["title"] = s[6:].strip()
+        elif s.startswith("HOOK:"): data["hook"] = s[5:].strip()
         elif s.startswith("LESSON:"): data["lesson"] = s[7:].strip()
         elif s.startswith("DESCRIPTION:"): data["description"] = s[12:].strip()
         elif s == "STORY:":
