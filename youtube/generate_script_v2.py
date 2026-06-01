@@ -4,10 +4,10 @@ import json
 import re
 from datetime import datetime
 from pathlib import Path
-import requests
+import sys, os
+sys.path.insert(0, str(__import__("pathlib").Path(__file__).parent.parent if "/" in __file__ else __import__("pathlib").Path(".")))
+from ai_client import generate as _ai_generate
 
-OLLAMA_URL = "http://localhost:11434"
-OLLAMA_MODEL = "llama3.2:3b"
 SERIES_FILE = Path("youtube/topics_series.json")
 SCRIPTS_DIR = Path("youtube/scripts")
 
@@ -51,14 +51,9 @@ OUTRO:
 [3 sentences. Recap the #1 takeaway. Tease next episode. Tell them to subscribe to Money Brain.]
 """
 
-def call_ollama(prompt):
-    resp = requests.post(
-        f"{OLLAMA_URL}/api/generate",
-        json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False,
-              "options": {"temperature": 0.75, "num_predict": 2500}},
-        timeout=300
-    )
-    return resp.json()["response"]
+def call_ollama(prompt, tokens=3000):
+    return _ai_generate(prompt, model="sonnet", max_tokens=tokens)
+
 
 def parse_script(raw, series, ep):
     data = {

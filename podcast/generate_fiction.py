@@ -6,12 +6,12 @@ Labeled clearly as fiction. Can go darker and more dramatic than real cases.
 """
 import json
 import re
-import requests
+import sys, os
+sys.path.insert(0, str(__import__("pathlib").Path(__file__).parent.parent if "/" in __file__ else __import__("pathlib").Path(".")))
+from ai_client import generate as _ai_generate
 from datetime import datetime
 from pathlib import Path
 
-OLLAMA_URL = "http://localhost:11434"
-OLLAMA_MODEL = "llama3.2:3b"
 SCRIPTS_DIR = Path("podcast/scripts")
 USED_FILE = Path("podcast/fiction_used.json")
 
@@ -82,14 +82,9 @@ Rules:
 - Total word count: 1200-1500 words
 """
 
-def call_ollama(prompt):
-    resp = requests.post(
-        f"{OLLAMA_URL}/api/generate",
-        json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False,
-              "options": {"temperature": 0.85, "num_predict": 2500}},
-        timeout=300
-    )
-    return resp.json()["response"]
+def call_ollama(prompt, tokens=3000):
+    return _ai_generate(prompt, model="sonnet", max_tokens=tokens)
+
 
 def parse_script(raw, concept):
     data = {

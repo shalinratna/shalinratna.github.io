@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 import json
 import re
-import requests
+import sys, os
+sys.path.insert(0, str(__import__("pathlib").Path(__file__).parent.parent if "/" in __file__ else __import__("pathlib").Path(".")))
+from ai_client import generate as _ai_generate
 import sys
 from datetime import datetime
 from pathlib import Path
 
 SITE_NAME = "AI Money Tools"
 SITE_URL = "https://shalinratna.github.io"
-OLLAMA_MODEL = "llama3.2:3b"
-OLLAMA_URL = "http://localhost:11434"
 ARTICLES_PER_RUN = 3
 
 PROMPT = """Write an expert, SEO-optimized article about: {topic}
@@ -77,23 +77,9 @@ Rules:
 - Include at least one markdown table somewhere in the article
 """
 
-def call_ollama(topic):
-    try:
-        resp = requests.post(
-            f"{OLLAMA_URL}/api/generate",
-            json={
-                "model": OLLAMA_MODEL,
-                "prompt": PROMPT.format(topic=topic),
-                "stream": False,
-                "options": {"temperature": 0.7, "num_predict": 2800}
-            },
-            timeout=300
-        )
-        resp.raise_for_status()
-        return resp.json()["response"]
-    except Exception as e:
-        print(f"Ollama error: {e}")
-        return None
+def call_ollama(prompt, tokens=3000):
+    return _ai_generate(prompt, model="sonnet", max_tokens=tokens)
+
 
 def parse_response(raw, topic):
     title = topic

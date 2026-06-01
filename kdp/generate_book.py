@@ -7,10 +7,11 @@ $9.99/book × 70% royalty = $7/sale. 20 sales/month = $140/book passive forever.
 import json, re, subprocess
 from datetime import datetime
 from pathlib import Path
-import requests
+import sys, os
+sys.path.insert(0, str(__import__("pathlib").Path(__file__).parent.parent if "/" in __file__ else __import__("pathlib").Path(".")))
+from ai_client import generate as _ai_generate
 from PIL import Image, ImageDraw, ImageFont
 
-OLLAMA_URL = "http://localhost:11434"
 MODEL = "llama3.2:3b"
 BOOKS_DIR = Path("kdp/books")
 COVERS_DIR = Path("kdp/covers")
@@ -62,12 +63,9 @@ CHAPTER_10: [Chapter title]
 
 Generate the outline now:"""
 
-def call_ollama(prompt, tokens=2000):
-    r = requests.post(f"{OLLAMA_URL}/api/generate",
-        json={"model": MODEL, "prompt": prompt, "stream": False,
-              "options": {"temperature": 0.7, "num_predict": tokens}},
-        timeout=300)
-    return r.json()["response"]
+def call_ollama(prompt, tokens=3000):
+    return _ai_generate(prompt, model="sonnet", max_tokens=tokens)
+
 
 def make_cover(book, out_path):
     W, H = 1600, 2560

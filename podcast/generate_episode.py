@@ -5,12 +5,12 @@ Feels like two real friends hosting a show — natural, warm, funny, then chilli
 """
 import json
 import re
-import requests
+import sys, os
+sys.path.insert(0, str(__import__("pathlib").Path(__file__).parent.parent if "/" in __file__ else __import__("pathlib").Path(".")))
+from ai_client import generate as _ai_generate
 from datetime import datetime
 from pathlib import Path
 
-OLLAMA_URL = "http://localhost:11434"
-OLLAMA_MODEL = "llama3.2:3b"
 CASES_FILE = Path("podcast/cases.json")
 SCRIPTS_DIR = Path("podcast/scripts")
 
@@ -133,14 +133,9 @@ Reply with ONLY a numbered list. One sentence per case.
 
 Generate 30 now:"""
 
-def call_ollama(prompt):
-    resp = requests.post(
-        f"{OLLAMA_URL}/api/generate",
-        json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False,
-              "options": {"temperature": 0.85, "num_predict": 3000}},
-        timeout=300
-    )
-    return resp.json()["response"]
+def call_ollama(prompt, tokens=3000):
+    return _ai_generate(prompt, model="sonnet", max_tokens=tokens)
+
 
 def parse_script(raw, case):
     data = {
