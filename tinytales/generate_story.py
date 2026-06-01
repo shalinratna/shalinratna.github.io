@@ -148,6 +148,10 @@ def parse_story(raw, c1, c2):
             if text:
                 data["dialogue"].append({"speaker": current_speaker, "text": text})
 
+    # All known speaker prefixes
+    c1up = c1["name"].upper() + ":"
+    c2up = c2["name"].upper() + ":"
+
     for line in raw.split('\n'):
         s = line.strip()
         if not s:
@@ -156,20 +160,37 @@ def parse_story(raw, c1, c2):
         elif s.startswith("LESSON:"): data["lesson"] = s[7:].strip()
         elif s.startswith("DESCRIPTION:"): data["description"] = s[12:].strip()
         elif s == "STORY:":
-            in_story = True
-        elif in_story:
-            c1u = c1["name"].upper().replace(" ", "_")
-            c2u = c2["name"].upper().replace(" ", "_")
-            if s.startswith("NARRATOR:"):
-                flush(); current_speaker = "NARRATOR"; current_lines = [s[9:].strip()]
-            elif s.startswith(c1["name"].upper() + ":"):
-                flush(); current_speaker = c1["name"]; current_lines = [s[len(c1["name"])+1:].strip()]
-            elif s.startswith(c2["name"].upper() + ":"):
-                flush(); current_speaker = c2["name"]; current_lines = [s[len(c2["name"])+1:].strip()]
-            elif current_speaker:
-                current_lines.append(s)
+            in_story = True; continue
+
+        # Parse dialogue — works with or without STORY: marker
+        if s.startswith("NARRATOR:"):
+            flush(); current_speaker = "NARRATOR"; current_lines = [s[9:].strip()]
+        elif s.startswith(c1up):
+            flush(); current_speaker = c1["name"]; current_lines = [s[len(c1up):].strip()]
+        elif s.startswith(c2up):
+            flush(); current_speaker = c2["name"]; current_lines = [s[len(c2up):].strip()]
+        elif current_speaker and not any(s.startswith(p) for p in ["TITLE:","LESSON:","DESCRIPTION:","STORY:"]):
+            current_lines.append(s)
 
     flush()
+
+    # Fallbacks if model didn't use structured format
+    if not data["title"]:
+        data["title"] = f"The Adventure of {c1['name']} and {c2['name']}"
+    if not data["lesson"]:
+        data["lesson"] = "Working together makes everything better"
+    if not data["dialogue"]:
+        # Re-parse more loosely — any "NAME: text" pattern
+        for line in raw.split('\n'):
+            s = line.strip()
+            for name in [c1["name"], c2["name"], "Narrator", "NARRATOR"]:
+                if s.upper().startswith(name.upper() + ":"):
+                    speaker = "NARRATOR" if "narrator" in name.lower() else name.title()
+                    text = s[len(name)+1:].strip()
+                    if text:
+                        data["dialogue"].append({"speaker": speaker, "text": text})
+                    break
+
     return data
 
 def main():

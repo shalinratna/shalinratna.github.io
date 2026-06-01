@@ -1,0 +1,25 @@
+{
+  "title": "",
+  "lesson": "",
+  "description": "",
+  "dialogue": [],
+  "ep_num": 1,
+  "char1_key": "fox",
+  "char2_key": "owl",
+  "char1": {
+    "emoji": "\ud83e\udd8a",
+    "name": "Rusty",
+    "voice": "en-US-GuyNeural",
+    "personality": "clever, mischievous, kind underneath"
+  },
+  "char2": {
+    "emoji": "\ud83e\udd89",
+    "name": "Professor",
+    "voice": "en-GB-RyanNeural",
+    "personality": "wise, formal, secretly loves jokes"
+  },
+  "story_type": "a character feels left out but discovers their unique gift",
+  "setting": "a vegetable patch",
+  "date": "2026-05-31",
+  "slug": ""
+}

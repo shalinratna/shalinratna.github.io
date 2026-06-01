@@ -1,0 +1,90 @@
+{
+  "title": "The Adventure of Sally and Pete",
+  "lesson": "Working together makes everything better",
+  "description": "",
+  "dialogue": [
+    {
+      "speaker": "NARRATOR",
+      "text": "In a bright, beautiful garden, Sally the confident caterpillar loved to explore. Her friend Pete, a spicy pepper, was always by her side."
+    },
+    {
+      "speaker": "Sally",
+      "text": "I'm the best explorer ever! Nothing can scare me! (proudly strutting ahead)"
+    },
+    {
+      "speaker": "Pete",
+      "text": "Oh no, oh no! You'll get eaten by that big spider! (alarmed, pointing)"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "But when Sally saw a giant spider, she got stuck and wouldn't move."
+    },
+    {
+      "speaker": "Sally",
+      "text": "I'm too scared! What if it eats me? (whimpering)"
+    },
+    {
+      "speaker": "Pete",
+      "text": "Don't worry, Sally! I've got an idea! (dramatically) I'll just sneeze on the spider!"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "But Pete's sneeze accidentally blew pollen all over the garden, making everything go haywire."
+    },
+    {
+      "speaker": "Sally",
+      "text": "Now the whole garden is a mess! What have you done?! (fuming)"
+    },
+    {
+      "speaker": "Pete",
+      "text": "Oops... Sorry, Sally! My sneezes can be pretty spicy! (laughing nervously)"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "But then Sally had an idea \u2013 they could work together to clean up the mess."
+    },
+    {
+      "speaker": "Sally",
+      "text": "Okay, okay! Let's do it! We can't let one little spider stop us! (determined)"
+    },
+    {
+      "speaker": "Pete",
+      "text": "Together we can do anything, even face our fears! (excitedly joining in)"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "With teamwork and a bit of bravery, Sally and Pete cleaned up the garden and chased the spider away."
+    },
+    {
+      "speaker": "Sally",
+      "text": "Whoa! I'm proud of us! We did it! (proudly hugging Pete)"
+    },
+    {
+      "speaker": "Pete",
+      "text": "And we learned that being brave doesn't mean you're not scared \u2013 it means you face your fears with a friend by your side!"
+    },
+    {
+      "speaker": "NARRATOR",
+      "text": "So remember, little explorers, when you feel scared or unsure, find a friend to help you be brave!"
+    }
+  ],
+  "ep_num": 2,
+  "char1_key": "salt",
+  "char2_key": "pepper",
+  "char1": {
+    "emoji": "\ud83e\uddc2",
+    "name": "Sally",
+    "voice": "en-US-JennyNeural",
+    "personality": "confident, thinks she's the best"
+  },
+  "char2": {
+    "emoji": "\ud83e\uded9",
+    "name": "Pete",
+    "voice": "en-GB-RyanNeural",
+    "personality": "dramatic, spicy personality, easily sneezes"
+  },
+  "story_type": "a character who is afraid of something learns to be brave",
+  "setting": "a sunny garden",
+  "date": "2026-05-31",
+  "slug": "the-adventure-of-sally-and-pete"
+}
